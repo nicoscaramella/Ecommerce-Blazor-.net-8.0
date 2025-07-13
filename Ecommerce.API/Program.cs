@@ -42,7 +42,18 @@ builder.Services.AddScoped<IVentaServicio, VentaServicio>();
 
 builder.Services.AddScoped<IDashboardService, DashboardServicio>();
 
-
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("NuevaPolitica",
+        app =>
+        {
+            app.AllowAnyOrigin()
+                   .AllowAnyMethod()
+                   .AllowAnyHeader();
+        }
+    );
+}
+);
 
 var app = builder.Build();
 
@@ -52,6 +63,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors("NuevaPolitica");
 
 app.UseAuthorization();
 
